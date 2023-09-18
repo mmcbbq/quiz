@@ -113,7 +113,7 @@ class Question
 
         $obj = [];
         foreach ($array as $item) {
-            $obj = [new Question($item['id'], $item['question'], $item['answer_a'], $item['answer_b'], $item['answer_c'])];
+            $obj[]  = new Question($item['id'], $item['question'], $item['answer_a'], $item['answer_b'], $item['answer_c']);
         }
         return $obj;
 
@@ -142,6 +142,25 @@ class Question
         return $obj;
 
     }
+
+    public function checkAnswer($userAnswer):bool
+    {if ( $this->getAnswerC() == $userAnswer){
+        return true;
+    }
+    return false;
+    }
+
+    public function randomAnswerArray():array
+    {
+        $array=[];
+        array_push($array, $this->getAnswerA(),$this->getAnswerB(),$this->getAnswerC());
+         shuffle($array);
+        return $array;
+
+    }
+
+
+
 
 }
 

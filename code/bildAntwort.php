@@ -1,6 +1,11 @@
-<?php 
+<?php
+require ('Entity/Question.php');
     $cookie_name_nutzerHinweis = "Hinweis";
     $cookie_name_verbleibende_Versuche = "verbleibendeVersuche";
+
+    $frage = Question::findById($_GET['frageid']);
+
+
 
     // An hier startet die Auswertung des "NEUSTARTEN"-Buttons
     if (isset($_GET["neustarten"])) {
@@ -26,12 +31,12 @@
         // Dieser Block wird aktiviert, wenn der Nutzer eine Auswahl getroffen hat
         // -> ein Radio-Button wurde ausgewählt
 
-        $richtigeAntwort = "richtig";
-        $falsscheAntwort = "falsch";
-        $nutzerAntwort = $_GET["AntwortGruppe"];
+//        $richtigeAntwort = "richtig";
+//        $falsscheAntwort = "falsch";
+//        $nutzerAntwort = $_GET["AntwortGruppe"];
 
         //kontrollstruktur für richtige oder falsche antworten
-        if ($nutzerAntwort == $richtigeAntwort) {
+        if ($frage->checkAnswer($_GET['AntwortGruppe'])) {
             // Dieser Code-Block wird aktiviert, 
             //wenn der Nutzer die richtige Antwort ausgewählt hat
 
