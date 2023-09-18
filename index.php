@@ -1,31 +1,15 @@
 <?php
+require ('code/Entity/Question.php');
+
+
     // Cookie - verbleibende Versuche auslesen
     $cookie_name_verbleibende_Versuche = "verbleibendeVersuche";
     $cookie_name_nutzerHinweis = "Hinweis";
     $game_over_schalter = 0;
     $nutzerHinweis = null;
 
-
-    $conn = new mysqli("localhost", "root", "", "spielemitfarben");
-
-    $sql = "SELECT * FROM user";
-    $results =$conn->query($sql);
-
-
-
-//    var_dump($results->fetch_all());
-foreach ($results as $row){
-    echo("<p>". $row['username']."</p>");
-}
-
-
-
-
-
-//if ($conn->connect_error) {
-//    die("Connection failed: " . $conn->connect_error);
-//}
-//echo "Connected successfully";
+    $fragen = Question::findAll();
+//    echo $frage->getQuestion();
 
 
 
@@ -80,13 +64,20 @@ foreach ($results as $row){
                             <?php echo $nutzerHinweis;?>
                 </td>
             </tr>
+
+            <tr>
+                <td colspan="3" align="center">
+                    <?php echo $frage->getQuestion();?>
+                </td>
+            </tr>
+
             <form action="code/bildAntwort.php" method="get"> 
             <tr>
                 <td align="right">
                     <input type="radio" name="AntwortGruppe" value="falsch" <?php if($game_over_schalter == 1){echo "disabled";}?>>
                 </td>
                 <td colspan="2">
-                    <p>Antwort 1</p>
+                    <p> <?php echo $frage->getAnswerA();?></p>
                 </td>
             </tr>
             <tr>
@@ -94,7 +85,7 @@ foreach ($results as $row){
                     <input type="radio" name="AntwortGruppe" value="falsch" <?php if($game_over_schalter == 1){echo "disabled";}?>>
                 </td>
                 <td colspan="2">
-                    <p>Antwort 2</p>
+                    <p><?php echo $frage->getAnswerB();?></p>
                 </td>
             </tr>
             <tr>
@@ -102,7 +93,7 @@ foreach ($results as $row){
                     <input type="radio" name="AntwortGruppe" value="richtig" <?php if($game_over_schalter == 1){echo "disabled";}?>>
                 </td>
                 <td colspan="2">
-                    <p>Antwort 3</p>
+                    <p><?php echo $frage->getAnswerC();?></p>
                 </td>
             </tr>
             <tr>

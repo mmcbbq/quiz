@@ -3,9 +3,7 @@
 class User
 {
     private int $id;
-
     private string $username;
-
     private string $password;
 
     /**
@@ -118,8 +116,8 @@ class User
 }
 
 
-$newUser = User::findByname('micha');
-echo($newUser->getUsername() );
+//$newUser = User::findByname('micha');
+//echo($newUser->getUsername() );
 //$manuel->id = 1;
 //$manuel->username= "Manuel";
 //$manuel->password= "123";
