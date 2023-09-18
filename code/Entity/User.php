@@ -40,9 +40,23 @@ class User
         //rufen wir die Methode des mysqli_result Objects aus -> array
         $array = $results->fetch_assoc();
         //Erstellen des Usernew Objects mit den Daten aus der DB -> Usernew Object
-        $userObj = new Usernew($array['id'],$array['username'],$array['password']);
+        $userObj = new User($array['id'],$array['username'],$array['password']);
         //rückgabe des Usernew Object
         return $userObj;
+
+    }
+
+    public static function findByName($name)
+    {
+        $conn = new mysqli("localhost", "root", "", "spielemitfarben");
+        $sql = "SELECT * FROM user WHERE username = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('s',$name);
+        $stmt->execute();
+        $mysqliresult = $stmt->get_result();
+        $array = $mysqliresult->fetch_assoc();
+        $user = new User($array ['id'],$array['username'],$array['password']);
+        return $user;
 
     }
 
@@ -103,9 +117,9 @@ class User
 
 }
 
-Usernew::findAll();
-$newUser = Usernew::findById(1);
-echo($newUser->getUsername());
+
+$newUser = User::findByname('micha');
+echo($newUser->getUsername() );
 //$manuel->id = 1;
 //$manuel->username= "Manuel";
 //$manuel->password= "123";
