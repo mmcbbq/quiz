@@ -1,24 +1,21 @@
 <?php
 require('code/Entity/Question.php');
-
-
-// Cookie - verbleibende Versuche auslesen
 $cookie_name_verbleibende_Versuche = "verbleibendeVersuche";
 $cookie_name_nutzerHinweis = "Hinweis";
 $game_over_schalter = 0;
 $nutzerHinweis = null;
+if (!isset($_COOKIE['frageid'])) {
+    $fragen = Question::findAll();
+    $index = array_rand($fragen);
+    $frage = $fragen[$index];
+    if (get_class($frage) === Question::class)
+        $antworten = $frage->randomAnswerArray();
+    setcookie('antworten', json_encode($antworten), 0, '/');
+} else {
+    $frage = Question::findById($_COOKIE['frageid']);
+    $antworten = json_decode($_COOKIE['antworten']);
+}
 
-$fragen = Question::findAll();
-//    var_dump($fragen);
-$index = array_rand($fragen);
-$frage = $fragen[$index];
-if (get_class($frage)===Question::class)
-
-
-//    echo $frage->getQuestion();
-
-
-// Cookie - Nutzerhinweis auslesen
 if (isset($_COOKIE[$cookie_name_nutzerHinweis])) {
     $nutzerHinweis = $_COOKIE[$cookie_name_nutzerHinweis];
 } else {
@@ -38,7 +35,7 @@ if (isset($_COOKIE[$cookie_name_verbleibende_Versuche])) {
     $verbleibendeVersuche = 3;
 }
 ?>
-<html>
+<html lang="de">
 <head>
     <title>Hello World</title>
     <style>
@@ -75,44 +72,33 @@ if (isset($_COOKIE[$cookie_name_verbleibende_Versuche])) {
     <tr>
         <td colspan="3" align="center">
             <?php echo $frage->getQuestion();
-            if ($game_over_schalter==1) {
+            if ($game_over_schalter == 1) {
 
-            echo('<p>Die Richtige Antwort war ' . $frage->getAnswerC() . '</p>');
+                echo('<p>Die Richtige Antwort war ' . $frage->getAnswerC() . '</p>');
             } ?>
         </td>
     </tr>
-
     <form action="code/bildAntwort.php" method="get">
-
-        <tr>
-            <td>
-                <input type="text" name="frageid" value="<?php echo $frage->getId(); ?>" hidden readonly >
-            </td>
-        </tr>
-
+        <input type="text" name="frageid" value="<?php echo $frage->getId(); ?>" hidden readonly>
         <?php
 
-        if ($game_over_schalter==1){
-        } else{
-        foreach ($frage->randomAnswerArray() as $antwort) {
-
-         echo( '  
+        if ($game_over_schalter == 1) {
+        } else {
+            foreach ($antworten as $antwort) {
+                echo('  
             <tr>
             <td align="right">
                 <input type="radio" name="AntwortGruppe"
-                       value="'.$antwort.'">
+                       value="' . $antwort . '">
         </td>
         <td colspan="2">
-            <p> '.$antwort.'</p>
+            <p> ' . $antwort . '</p>
         </td>
         </tr>
            ');
-
-
-        }}?>
-
-
-
+            }
+        } ?>
+        <tr>
             <td align="center">
                 <input type="submit" name="neustarten" value="Neustarten">
             </td>

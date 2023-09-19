@@ -7,7 +7,6 @@ class Question
     private string $answer_a;
     private string $answer_b;
     private string $answer_c;
-
     /**
      * @param int $id
      * @param string $question
@@ -39,7 +38,6 @@ class Question
     {
         $this->id = $id;
     }
-
     /**
      * @return string
      */
@@ -95,7 +93,6 @@ class Question
     {
         return $this->answer_c;
     }
-
     /**
      * @param string $answer_c
      */
@@ -103,22 +100,18 @@ class Question
     {
         $this->answer_c = $answer_c;
     }
-
     public static function findAll(): array
     {
         $conn = new mysqli("localhost", "root", "", "spielemitfarben");
         $sql = "SELECT * FROM question";
         $results = $conn->query($sql);
         $array = $results->fetch_all(1);
-
         $obj = [];
         foreach ($array as $item) {
             $obj[]  = new Question($item['id'], $item['question'], $item['answer_a'], $item['answer_b'], $item['answer_c']);
         }
         return $obj;
-
     }
-
     public static function findById($id): Question
     {
         $conn = new mysqli("localhost", "root", "", "spielemitfarben");
@@ -128,7 +121,6 @@ class Question
         $obj = new Question($array['id'], $array['question'], $array['answer_a'], $array['answer_b'], $array['answer_c']);
         return $obj;
     }
-
     public static function findByName($name):Question
     {
         $conn = new mysqli("localhost", "root", "", "spielemitfarben");
@@ -140,27 +132,18 @@ class Question
         $array = $mysqliresult->fetch_assoc();
         $obj = new Question($array['id'], $array['question'], $array['answer_a'], $array['answer_b'], $array['answer_c']);
         return $obj;
-
     }
-
     public function checkAnswer($userAnswer):bool
     {if ( $this->getAnswerC() == $userAnswer){
         return true;
     }
     return false;
     }
-
     public function randomAnswerArray():array
     {
         $array=[];
         array_push($array, $this->getAnswerA(),$this->getAnswerB(),$this->getAnswerC());
          shuffle($array);
         return $array;
-
     }
-
-
-
-
 }
-
