@@ -4,7 +4,6 @@ require ('code/Entity/User.php');
 session_start();
 if (!isset($_SESSION['userid'])){
     header('Location: http://localhost:63342/quiz/login.php');
-
 };
 $cookie_name_verbleibende_Versuche = "verbleibendeVersuche";
 $cookie_name_nutzerHinweis = "Hinweis";

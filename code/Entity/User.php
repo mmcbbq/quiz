@@ -71,14 +71,9 @@ class User
         $stmt->execute();
         return User::findById($conn->insert_id);
     }
-    public function checkPassword($password)
+    public function checkPassword($password) :bool
     {
-        if (password_verify($password,$this->password)){
-            return true;
-        } else{
-            return false;
-        }
-
+       return (password_verify($password,$this->password));
     }
 
 

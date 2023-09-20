@@ -1,19 +1,19 @@
 <?php
-require ('code/Entity/User.php');
+require('code/Entity/User.php');
 session_start();
 
-if (isset($_GET['login'])){
-$user = User::findByName($_POST['username']);
-if($user->checkPassword($_POST['password'])){
-    $_SESSION['userid']= $user->getId();
-    header('Location: http://localhost:63342/quiz/index.php');
-    die();
+if (isset($_GET['login'])) {
+    if (User::findByName($_POST['password'])) {
+        $user = User::findByName($_POST['username']);
+        if ($user->checkPassword($_POST['password'])) {
+            $_SESSION['userid'] = $user->getId();
+            header('Location: http://localhost:63342/quiz/index.php');
+            die();
+        }
+    }
 
-
-//    header();
-}else{
     echo 'falsch';
-}
+
 }
 
 ?>
@@ -36,5 +36,6 @@ if($user->checkPassword($_POST['password'])){
     <br>
     <input type="submit">
 </form>
+<a href="reg.php">Reg</a>
 </body>
 </html>
