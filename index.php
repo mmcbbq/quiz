@@ -1,9 +1,16 @@
 <?php
 require('code/Entity/Question.php');
+require ('code/Entity/User.php');
+session_start();
+if (!isset($_SESSION['userid'])){
+    header('Location: http://localhost:63342/quiz/login.php');
+
+};
 $cookie_name_verbleibende_Versuche = "verbleibendeVersuche";
 $cookie_name_nutzerHinweis = "Hinweis";
 $game_over_schalter = 0;
 $nutzerHinweis = null;
+//var_dump($_SESSION);
 if (!isset($_COOKIE['frageid'])) {
     $fragen = Question::findAll();
     $index = array_rand($fragen);
@@ -45,7 +52,7 @@ if (isset($_COOKIE[$cookie_name_verbleibende_Versuche])) {
     </style>
 </head>
 <body>
-
+<h1>Hallo <?php echo User::findById($_SESSION['userid'])->getUsername().'Du hast noch'.$verbleibendeVersuche ?></h1>
 <table border="10px">
     <tr>
         <th colspan="3"><h1 style="color: #3cb371;">Mein erstes Bild</h1></th>

@@ -44,7 +44,7 @@ class User
 
     }
 
-    public static function findByName($name)
+    public static function findByName($name) :User|bool
     {
         $conn = new mysqli("localhost", "root", "", "spielemitfarben");
         $sql = "SELECT * FROM user WHERE username = ?";
@@ -53,16 +53,37 @@ class User
         $stmt->execute();
         $mysqliresult = $stmt->get_result();
         $array = $mysqliresult->fetch_assoc();
+        if ($array){
         $user = new User($array ['id'],$array['username'],$array['password']);
-        return $user;
+        return $user;}
+        else
+            return false;
 
     }
 
-
-    public function sagHallo()
+    public static function newUser(string $username, string $password):User
     {
-        echo('Hallo mein Name ist '.$this->username);
+        $conn = new mysqli("localhost", "root", "", "spielemitfarben");
+        $hashpassword= password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO user (username, password) values (?,?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ss',$username, $hashpassword);
+        $stmt->execute();
+        return User::findById($conn->insert_id);
     }
+    public function checkPassword($password)
+    {
+        if (password_verify($password,$this->password)){
+            return true;
+        } else{
+            return false;
+        }
+
+    }
+
+
+
+
 
     /**
      * @return int
@@ -116,19 +137,3 @@ class User
 }
 
 
-//$newUser = User::findByname('micha');
-//echo($newUser->getUsername() );
-//$manuel->id = 1;
-//$manuel->username= "Manuel";
-//$manuel->password= "123";
-//echo($manuel->username);
-//$manuel->sagHallo();
-//echo(Usernew::findById(1)->sagHallo());
-
-//foreach ($manuel->findAll() as $row){
-//    echo('<div> Name: '.$row['username'].'</div>');
-//
-//}
-
-
-//var_dump($manuel->DBconn());
