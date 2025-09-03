@@ -1,5 +1,5 @@
 export class Question {
-    constructor(id,text,answers) {
+    constructor({id,text,answers}) {
         this.id = id;
         this.text = text;
         this.answers = answers;
@@ -8,9 +8,11 @@ export class Question {
 
     showQ(parent) {
         const cardDiv = document.createElement('div')
+        cardDiv.classList.add('card')
         const qDiv = document.createElement('div');
 
         const answersDiv = document.createElement('div');
+        answersDiv.className = 'answersContainer'
         const qNode = document.createTextNode(this.text)
 
         const checkBut = document.createElement('button')
@@ -19,13 +21,16 @@ export class Question {
 
 
         cardDiv.appendChild(qDiv);
-        qDiv.appendChild(qNode);
         cardDiv.appendChild(answersDiv);
 
+        qDiv.appendChild(qNode);
+
         parent.appendChild(cardDiv);
-        parent.appendChild(checkBut);
+        cardDiv.appendChild(checkBut);
         for (const answer of this.answers) {
             const ansdiv = document.createElement('div');
+            ansdiv.classList.add('answer');
+
             const ansTxtNode = document.createTextNode(answer.text);
             ansdiv.id = 'answerId_' + answer.id;
             ansdiv.addEventListener('click', this.clickAns.bind(this))
@@ -44,10 +49,11 @@ export class Question {
             if (answer.id === parseInt(id)) {
                 if (answer.checked) {
                     answer.checked = false
-                    event.target.style = ''
+                    event.target.className = 'answer';
                 } else {
                     answer.checked = true
-                    event.target.style = 'background-color: blue'
+                    event.target.className = 'answerChecked';
+
                 }
             }
         }
@@ -69,6 +75,4 @@ export class Question {
             alert('Falsch');
         }
     }
-
-
-};
+}

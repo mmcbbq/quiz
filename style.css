@@ -1,0 +1,43 @@
+.pages{
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 50%;
+    background-color: #B9D4AA;
+
+}
+.pageschecked{
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 50%;
+    background-color: #FAFFCA;
+}
+.card{
+    background-color: #84AE92;
+    border-radius: 10px;
+    width: 50%;
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+body{
+    background-color: #5A827E;
+}
+
+.answersContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.answer{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.answerChecked{
+    background-color: #B9D4AA;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10%;
+}
